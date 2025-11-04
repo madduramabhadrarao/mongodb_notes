@@ -1,0 +1,2594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB Complete Notes - Comprehensive Guide</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <style>
+        body {
+            background-color: #f4f6fa;
+        }
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        .section-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0 1rem 0;
+        }
+        .subsection {
+            border-left: 4px solid #667eea;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+        }
+        .note-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+        }
+        .tip-box {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0.25rem;
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- Header -->
+        <header class="navbar navbar-expand-md navbar-light sticky-nav">
+            <div class="container-xl">
+                <h1 class="navbar-brand">
+                    <i class="ti ti-database"></i>
+                    MongoDB Complete Guide
+                </h1>
+                <div class="navbar-nav flex-row">
+                    <a href="#basics" class="nav-link">Basics</a>
+                    <a href="#crud" class="nav-link">CRUD</a>
+                    <a href="#nodejs" class="nav-link">Node.js</a>
+                    <a href="#webpack" class="nav-link">Webpack</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="page-wrapper">
+            <div class="container-xl">
+                <div class="page-body">
+                    <div class="row">
+                        <!-- Sidebar -->
+                        <div class="col-md-3">
+                            <div class="card position-sticky top-0">
+                                <div class="card-body">
+                                    <h3 class="card-title">Table of Contents</h3>
+                                    <div class="list-group list-group-transparent">
+                                        <a href="#basics" class="list-group-item list-group-item-action">1. MongoDB Basics</a>
+                                        <a href="#documents" class="list-group-item list-group-item-action">2. Documents</a>
+                                        <a href="#collections" class="list-group-item list-group-item-action">3. Collections</a>
+                                        <a href="#databases" class="list-group-item list-group-item-action">4. Databases</a>
+                                        <a href="#query-language" class="list-group-item list-group-item-action">5. Query Language</a>
+                                        <a href="#installation" class="list-group-item list-group-item-action">6. Installation</a>
+                                        <a href="#mongo-shell" class="list-group-item list-group-item-action">7. Mongo Shell</a>
+                                        <a href="#crud" class="list-group-item list-group-item-action">8. CRUD Operations</a>
+                                        <a href="#aggregate" class="list-group-item list-group-item-action">9. Aggregation</a>
+                                        <a href="#nodejs" class="list-group-item list-group-item-action">10. Node.js Driver</a>
+                                        <a href="#mongoose" class="list-group-item list-group-item-action">11. Mongoose</a>
+                                        <a href="#webpack" class="list-group-item list-group-item-action">12. Webpack & Modules</a>
+                                        <a href="#debugging" class="list-group-item list-group-item-action">13. Debugging</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Content Area -->
+                        <div class="col-md-9">
+                            <!-- MongoDB Basics -->
+                            <div id="basics" class="section-header">
+                                <h1><i class="ti ti-book"></i> 1. MongoDB Basics</h1>
+                                <p class="lead">Understanding the fundamentals of MongoDB</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>What is MongoDB?</h3>
+                                    <p>MongoDB is a <strong>NoSQL document database</strong> that stores data in flexible, JSON-like documents. It's designed for scalability, performance, and ease of development.</p>
+                                    
+                                    <h4>Key Features:</h4>
+                                    <ul>
+                                        <li><strong>Document-Oriented:</strong> Data stored as BSON (Binary JSON) documents</li>
+                                        <li><strong>Schema-less:</strong> Flexible schema design</li>
+                                        <li><strong>Scalable:</strong> Horizontal scaling through sharding</li>
+                                        <li><strong>High Performance:</strong> Optimized for read/write operations</li>
+                                        <li><strong>Rich Query Language:</strong> Powerful querying capabilities</li>
+                                    </ul>
+
+                                    <div class="note-box">
+                                        <strong><i class="ti ti-info-circle"></i> Note:</strong> MongoDB is especially suitable for applications with rapidly changing requirements or unstructured data.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Documents -->
+                            <div id="documents" class="section-header">
+                                <h1><i class="ti ti-file-text"></i> 2. Documents</h1>
+                                <p class="lead">Understanding MongoDB's data structure</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>What is a Document?</h3>
+                                    <p>A document is a record in MongoDB, similar to a row in relational databases. Documents are stored in BSON format and can contain nested structures.</p>
+
+                                    <h4>Document Example:</h4>
+                                    <div class="code-block">
+{
+  "_id": ObjectId("507f1f77bcf86cd799439011"),
+  "name": "John Doe",
+  "age": 30,
+  "email": "john@example.com",
+  "address": {
+    "street": "123 Main St",
+    "city": "New York",
+    "zipcode": "10001"
+  },
+  "hobbies": ["reading", "gaming", "coding"],
+  "createdAt": ISODate("2024-01-15T10:30:00Z")
+}
+                                    </div>
+
+                                    <h4>Document Characteristics:</h4>
+                                    <ul>
+                                        <li><strong>_id field:</strong> Unique identifier (auto-generated if not provided)</li>
+                                        <li><strong>Field-value pairs:</strong> Similar to JSON objects</li>
+                                        <li><strong>Nested documents:</strong> Documents can contain other documents</li>
+                                        <li><strong>Arrays:</strong> Can store multiple values</li>
+                                        <li><strong>Maximum size:</strong> 16MB per document</li>
+                                    </ul>
+
+                                    <h4>BSON Data Types:</h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Description</th>
+                                                    <th>Example</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>String</td>
+                                                    <td>UTF-8 string</td>
+                                                    <td>"Hello World"</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Number</td>
+                                                    <td>Integer or Float</td>
+                                                    <td>42, 3.14</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Boolean</td>
+                                                    <td>true/false</td>
+                                                    <td>true</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Object</td>
+                                                    <td>Embedded document</td>
+                                                    <td>{ key: "value" }</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Array</td>
+                                                    <td>List of values</td>
+                                                    <td>[1, 2, 3]</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>ObjectId</td>
+                                                    <td>Unique identifier</td>
+                                                    <td>ObjectId("...")</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Date</td>
+                                                    <td>Date and time</td>
+                                                    <td>ISODate("2024-01-15")</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Null</td>
+                                                    <td>Null value</td>
+                                                    <td>null</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Collections -->
+                            <div id="collections" class="section-header">
+                                <h1><i class="ti ti-folder"></i> 3. Collections</h1>
+                                <p class="lead">Grouping documents together</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>What is a Collection?</h3>
+                                    <p>A collection is a group of MongoDB documents, similar to a table in relational databases. Collections don't enforce a schema by default.</p>
+
+                                    <h4>Creating Collections:</h4>
+                                    <div class="code-block">
+// Explicit creation
+db.createCollection("users")
+
+// Implicit creation (created when first document is inserted)
+db.users.insertOne({ name: "Alice" })
+
+// With options
+db.createCollection("logs", {
+  capped: true,
+  size: 5242880,
+  max: 5000
+})
+                                    </div>
+
+                                    <h4>Collection Operations:</h4>
+                                    <div class="code-block">
+// List all collections
+show collections
+
+// Drop a collection
+db.users.drop()
+
+// Rename a collection
+db.users.renameCollection("customers")
+
+// Get collection stats
+db.users.stats()
+                                    </div>
+
+                                    <div class="tip-box">
+                                        <strong><i class="ti ti-bulb"></i> Tip:</strong> Collection names should be descriptive and follow naming conventions (lowercase, plural form).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Databases -->
+                            <div id="databases" class="section-header">
+                                <h1><i class="ti ti-database"></i> 4. Databases</h1>
+                                <p class="lead">Organizing collections into databases</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>MongoDB Databases</h3>
+                                    <p>A database is a container for collections. Each database has its own set of files on the file system.</p>
+
+                                    <h4>Database Operations:</h4>
+                                    <div class="code-block">
+// Show all databases
+show dbs
+
+// Switch to a database (creates if doesn't exist)
+use myDatabase
+
+// Show current database
+db
+
+// Drop database
+db.dropDatabase()
+
+// Get database stats
+db.stats()
+                                    </div>
+
+                                    <h4>Reserved Database Names:</h4>
+                                    <ul>
+                                        <li><strong>admin:</strong> Administrative database</li>
+                                        <li><strong>local:</strong> Stores data for replication</li>
+                                        <li><strong>config:</strong> Sharding configuration data</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Query Language -->
+                            <div id="query-language" class="section-header">
+                                <h1><i class="ti ti-search"></i> 5. MongoDB Query Language</h1>
+                                <p class="lead">Powerful querying capabilities</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>Query Operators</h3>
+                                    
+                                    <h4>Comparison Operators:</h4>
+                                    <div class="code-block">
+// Equal to
+db.users.find({ age: 30 })
+
+// Greater than
+db.users.find({ age: { $gt: 25 } })
+
+// Greater than or equal
+db.users.find({ age: { $gte: 25 } })
+
+// Less than
+db.users.find({ age: { $lt: 40 } })
+
+// Less than or equal
+db.users.find({ age: { $lte: 40 } })
+
+// Not equal
+db.users.find({ age: { $ne: 30 } })
+
+// In array
+db.users.find({ age: { $in: [25, 30, 35] } })
+
+// Not in array
+db.users.find({ age: { $nin: [25, 30, 35] } })
+                                    </div>
+
+                                    <h4>Logical Operators:</h4>
+                                    <div class="code-block">
+// AND
+db.users.find({ 
+  age: { $gt: 25 }, 
+  city: "New York" 
+})
+
+// OR
+db.users.find({ 
+  $or: [
+    { age: { $lt: 25 } },
+    { age: { $gt: 60 } }
+  ]
+})
+
+// NOT
+db.users.find({ 
+  age: { $not: { $gt: 30 } }
+})
+
+// NOR
+db.users.find({ 
+  $nor: [
+    { age: { $lt: 25 } },
+    { status: "inactive" }
+  ]
+})
+                                    </div>
+
+                                    <h4>Element Operators:</h4>
+                                    <div class="code-block">
+// Check if field exists
+db.users.find({ email: { $exists: true } })
+
+// Check field type
+db.users.find({ age: { $type: "number" } })
+                                    </div>
+
+                                    <h4>Array Operators:</h4>
+                                    <div class="code-block">
+// Match all elements
+db.users.find({ hobbies: { $all: ["reading", "gaming"] } })
+
+// Match array size
+db.users.find({ hobbies: { $size: 3 } })
+
+// Match any element
+db.users.find({ "hobbies": "reading" })
+
+// Element match
+db.users.find({ 
+  hobbies: { 
+    $elemMatch: { $eq: "reading" } 
+  }
+})
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Installation -->
+                            <div id="installation" class="section-header">
+                                <h1><i class="ti ti-download"></i> 6. MongoDB Installation</h1>
+                                <p class="lead">Setting up MongoDB on your system</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>Installation Steps</h3>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4><i class="ti ti-brand-windows"></i> Windows:</h4>
+                                            <div class="code-block">
+# Download MongoDB Community Edition
+# from mongodb.com
+
+# Run installer
+# mongodb-windows-x86_64-x.x.x.msi
+
+# Add to PATH
+C:\Program Files\MongoDB\Server\x.x\bin
+
+# Create data directory
+mkdir C:\data\db
+
+# Start MongoDB
+mongod
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <h4><i class="ti ti-brand-apple"></i> macOS:</h4>
+                                            <div class="code-block">
+# Using Homebrew
+brew tap mongodb/brew
+brew install mongodb-community
+
+# Start MongoDB
+brew services start mongodb-community
+
+# Or manually
+mongod --config /usr/local/etc/mongod.conf
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h4><i class="ti ti-brand-ubuntu"></i> Linux (Ubuntu):</h4>
+                                    <div class="code-block">
+# Import public key
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+
+# Create list file
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+
+# Install MongoDB
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+
+# Start MongoDB
+sudo systemctl start mongod
+sudo systemctl enable mongod
+                                    </div>
+
+                                    <h4>Docker Installation:</h4>
+                                    <div class="code-block">
+# Pull MongoDB image
+docker pull mongo
+
+# Run MongoDB container
+docker run -d -p 27017:27017 --name mongodb \
+  -e MONGO_INITDB_ROOT_USERNAME=admin \
+  -e MONGO_INITDB_ROOT_PASSWORD=password \
+  mongo
+
+# Access MongoDB shell
+docker exec -it mongodb mongosh
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mongo Shell -->
+                            <div id="mongo-shell" class="section-header">
+                                <h1><i class="ti ti-terminal"></i> 7. The Mongo Shell</h1>
+                                <p class="lead">Interactive JavaScript interface</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>Using the Mongo Shell (mongosh)</h3>
+
+                                    <h4>Basic Commands:</h4>
+                                    <div class="code-block">
+// Connect to MongoDB
+mongosh
+
+// Connect to specific host
+mongosh "mongodb://localhost:27017"
+
+// Connect with authentication
+mongosh "mongodb://username:password@localhost:27017"
+
+// Show help
+help
+
+// Clear screen
+cls
+
+// Exit shell
+exit
+                                    </div>
+
+                                    <h4>Common Shell Operations:</h4>
+                                    <div class="code-block">
+// Current database
+db
+
+// Database version
+db.version()
+
+// Server status
+db.serverStatus()
+
+// Current operations
+db.currentOp()
+
+// List databases
+show dbs
+
+// List collections
+show collections
+
+// List users
+show users
+
+// List roles
+show roles
+                                    </div>
+
+                                    <h4>Shell Scripting:</h4>
+                                    <div class="code-block">
+// Load external JavaScript file
+load("myScript.js")
+
+// Execute shell script
+mongosh myScript.js
+
+// Batch execution
+mongosh --eval "db.users.find().pretty()"
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CRUD Operations -->
+                            <div id="crud" class="section-header">
+                                <h1><i class="ti ti-edit"></i> 8. MongoDB CRUD Operations</h1>
+                                <p class="lead">Create, Read, Update, Delete operations</p>
+                            </div>
+
+                            <!-- Create -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h3 class="card-title">Create Operations</h3>
+                                </div>
+                                <div class="card-body">
+                                    <h4>Insert One Document:</h4>
+                                    <div class="code-block">
+db.users.insertOne({
+  name: "Alice Johnson",
+  email: "alice@example.com",
+  age: 28,
+  role: "developer",
+  skills: ["JavaScript", "Python", "MongoDB"]
+})
+
+// Response
+{
+  acknowledged: true,
+  insertedId: ObjectId("...")
+}
+                                    </div>
+
+                                    <h4>Insert Multiple Documents:</h4>
+                                    <div class="code-block">
+db.users.insertMany([
+  {
+    name: "Bob Smith",
+    email: "bob@example.com",
+    age: 35,
+    role: "manager"
+  },
+  {
+    name: "Carol White",
+    email: "carol@example.com",
+    age: 30,
+    role: "designer"
+  }
+])
+
+// Response
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("..."),
+    '1': ObjectId("...")
+  }
+}
+                                    </div>
+
+                                    <h4>Insert with Options:</h4>
+                                    <div class="code-block">
+db.users.insertMany(
+  [
+    { name: "User1", email: "user1@example.com" },
+    { name: "User2", email: "user2@example.com" }
+  ],
+  { ordered: false } // Continue on error
+)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Read -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h3 class="card-title">Read Operations</h3>
+                                </div>
+                                <div class="card-body">
+                                    <h4>Find Documents:</h4>
+                                    <div class="code-block">
+// Find all documents
+db.users.find()
+
+// Find with query
+db.users.find({ age: { $gt: 25 } })
+
+// Find one document
+db.users.findOne({ name: "Alice Johnson" })
+
+// Pretty print
+db.users.find().pretty()
+
+// Count documents
+db.users.countDocuments()
+db.users.countDocuments({ role: "developer" })
+                                    </div>
+
+                                    <h4>Query Methods:</h4>
+                                    <div class="code-block">
+// Limit results
+db.users.find().limit(5)
+
+// Skip documents
+db.users.find().skip(10)
+
+// Sort results
+db.users.find().sort({ age: 1 })  // Ascending
+db.users.find().sort({ age: -1 }) // Descending
+
+// Combine methods
+db.users.find()
+  .sort({ age: -1 })
+  .limit(10)
+  .skip(5)
+                                    </div>
+
+                                    <h4>Projection (Select Fields):</h4>
+                                    <div class="code-block">
+// Include specific fields
+db.users.find(
+  {},
+  { name: 1, email: 1 }
+)
+
+// Exclude specific fields
+db.users.find(
+  {},
+  { password: 0, _id: 0 }
+)
+
+// Include and exclude
+db.users.find(
+  { age: { $gt: 25 } },
+  { name: 1, email: 1, _id: 0 }
+)
+
+// Array element projection
+db.users.find(
+  {},
+  { name: 1, skills: { $slice: 2 } } // First 2 skills
+)
+                                    </div>
+
+                                    <h4>Advanced Queries:</h4>
+                                    <div class="code-block">
+// Regex search
+db.users.find({ 
+  name: { $regex: /^Alice/, $options: 'i' } 
+})
+
+// Text search (requires text index)
+db.users.find({ 
+  $text: { $search: "developer javascript" } 
+})
+
+// Nested document query
+db.users.find({ 
+  "address.city": "New York" 
+})
+
+// Array contains
+db.users.find({ 
+  skills: "JavaScript" 
+})
+
+// Multiple array conditions
+db.users.find({ 
+  skills: { 
+    $all: ["JavaScript", "MongoDB"] 
+  }
+})
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Update -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h3 class="card-title">Update Operations</h3>
+                                </div>
+                                <div class="card-body">
+                                    <h4>Update One Document:</h4>
+                                    <div class="code-block">
+db.users.updateOne(
+  { name: "Alice Johnson" },
+  { 
+    $set: { 
+      age: 29,
+      updatedAt: new Date()
+    }
+  }
+)
+
+// Response
+{
+  acknowledged: true,
+  matchedCount: 1,
+  modifiedCount: 1
+}
+                                    </div>
+
+                                    <h4>Update Many Documents:</h4>
+                                    <div class="code-block">
+db.users.updateMany(
+  { role: "developer" },
+  { 
+    $set: { department: "Engineering" }
+  }
+)
+                                    </div>
+
+                                    <h4>Update Operators:</h4>
+                                    <div class="code-block">
+// Set field value
+db.users.updateOne(
+  { name: "Alice" },
+  { $set: { status: "active" } }
+)
+
+// Increment numeric field
+db.users.updateOne(
+  { name: "Alice" },
+  { $inc: { loginCount: 1 } }
+)
+
+// Multiply numeric field
+db.users.updateOne(
+  { name: "Alice" },
+  { $mul: { salary: 1.1 } }
+)
+
+// Rename field
+db.users.updateOne(
+  { name: "Alice" },
+  { $rename: { "email": "emailAddress" } }
+)
+
+// Remove field
+db.users.updateOne(
+  { name: "Alice" },
+  { $unset: { tempField: "" } }
+)
+
+// Set minimum value
+db.users.updateOne(
+  { name: "Alice" },
+  { $min: { age: 25 } }
+)
+
+// Set maximum value
+db.users.updateOne(
+  { name: "Alice" },
+  { $max: { age: 30 } }
+)
+
+// Set current date
+db.users.updateOne(
+  { name: "Alice" },
+  { $currentDate: { lastModified: true } }
+)
+                                    </div>
+
+                                    <h4>Array Update Operators:</h4>
+                                    <div class="code-block">
+// Add to array
+db.users.updateOne(
+  { name: "Alice" },
+  { $push: { skills: "React" } }
+)
+
+// Add multiple to array
+db.users.updateOne(
+  { name: "Alice" },
+  { $push: { skills: { $each: ["Vue", "Angular"] } } }
+)
+
+// Add unique to array
+db.users.updateOne(
+  { name: "Alice" },
+  { $addToSet: { skills: "TypeScript" } }
+)
+
+// Remove from array
+db.users.updateOne(
+  { name: "Alice" },
+  { $pull: { skills: "jQuery" } }
+)
+
+// Remove first/last element
+db.users.updateOne(
+  { name: "Alice" },
+  { $pop: { skills: 1 } }  // 1 for last, -1 for first
+)
+
+// Remove multiple items
+db.users.updateOne(
+  { name: "Alice" },
+  { $pullAll: { skills: ["jQuery", "Backbone"] } }
+)
+                                    </div>
+
+                                    <h4>Upsert (Update or Insert):</h4>
+                                    <div class="code-block">
+db.users.updateOne(
+  { email: "newuser@example.com" },
+  { 
+    $set: { 
+      name: "New User",
+      createdAt: new Date()
+    }
+  },
+  { upsert: true }
+)
+                                    </div>
+
+                                    <h4>Replace One Document:</h4>
+                                    <div class="code-block">
+db.users.replaceOne(
+  { name: "Alice" },
+  {
+    name: "Alice Johnson",
+    email: "alice.johnson@example.com",
+    age: 29,
+    role: "senior developer"
+  }
+)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Delete -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h3 class="card-title">Delete Operations</h3>
+                                </div>
+                                <div class="card-body">
+                                    <h4>Delete One Document:</h4>
+                                    <div class="code-block">
+db.users.deleteOne({ 
+  name: "Alice Johnson" 
+})
+
+// Response
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+                                    </div>
+
+                                    <h4>Delete Many Documents:</h4>
+                                    <div class="code-block">
+// Delete all matching documents
+db.users.deleteMany({ 
+  status: "inactive" 
+})
+
+// Delete all documents
+db.users.deleteMany({})
+                                    </div>
+
+                                    <h4>Find and Delete:</h4>
+                                    <div class="code-block">
+// Find and delete, returns deleted document
+db.users.findOneAndDelete(
+  { name: "Alice" },
+  { 
+    sort: { age: -1 },
+    projection: { name: 1, email: 1 }
+  }
+)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Aggregation -->
+                            <div id="aggregate" class="section-header">
+                                <h1><i class="ti ti-chart-bar"></i> 9. Aggregation Framework</h1>
+                                <p class="lead">Advanced data processing and analysis</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>Aggregation Pipeline</h3>
+                                    <p>The aggregation framework processes data through a pipeline of stages.</p>
+
+                                    <h4>Basic Aggregation:</h4>
+                                    <div class="code-block">
+// Simple aggregation
+db.orders.aggregate([
+  { $match: { status: "completed" } },
+  { $group: { 
+      _id: "$customerId",
+      totalAmount: { $sum: "$amount" },
+      orderCount: { $sum: 1 }
+    }
+  },
+  { $sort: { totalAmount: -1 } }
+])
+                                    </div>
+
+                                    <h4>Aggregation Stages:</h4>
+                                    <div class="code-block">
+// $match - Filter documents
+{ $match: { age: { $gte: 18 } } }
+
+// $group - Group by field
+{ $group: { 
+    _id: "$department",
+    avgSalary: { $avg: "$salary" },
+    count: { $sum: 1 }
+  }
+}
+
+// $project - Select/reshape fields
+{ $project: { 
+    name: 1,
+    email: 1,
+    fullName: { $concat: ["$firstName", " ", "$lastName"] }
+  }
+}
+
+// $sort - Sort documents
+{ $sort: { age: -1, name: 1 } }
+
+// $limit - Limit results
+{ $limit: 10 }
+
+// $skip - Skip documents
+{ $skip: 20 }
+
+// $unwind - Deconstruct array
+{ $unwind: "$skills" }
+
+// $lookup - Join collections
+{ $lookup: {
+    from: "departments",
+    localField: "deptId",
+    foreignField: "_id",
+    as: "department"
+  }
+}
+
+// $addFields - Add new fields
+{ $addFields: { 
+    totalScore: { $add: ["$math", "$science"] }
+  }
+}
+
+// $count - Count documents
+{ $count: "totalUsers" }
+
+// $out - Write results to collection
+{ $out: "aggregation_results" }
+                                    </div>
+
+                                    <h4>Complex Aggregation Example:</h4>
+                                    <div class="code-block">
+db.orders.aggregate([
+  // Stage 1: Filter by date range
+  {
+    $match: {
+      orderDate: {
+        $gte: ISODate("2024-01-01"),
+        $lt: ISODate("2024-12-31")
+      }
+    }
+  },
+  
+  // Stage 2: Unwind items array
+  {
+    $unwind: "$items"
+  },
+  
+  // Stage 3: Group by product
+  {
+    $group: {
+      _id: "$items.productId",
+      totalQuantity: { $sum: "$items.quantity" },
+      totalRevenue: { 
+        $sum: { 
+          $multiply: ["$items.quantity", "$items.price"] 
+        }
+      },
+      orderCount: { $sum: 1 }
+    }
+  },
+  
+  // Stage 4: Lookup product details
+  {
+    $lookup: {
+      from: "products",
+      localField: "_id",
+      foreignField: "_id",
+      as: "productInfo"
+    }
+  },
+  
+  // Stage 5: Unwind product info
+  {
+    $unwind: "$productInfo"
+  },
+  
+  // Stage 6: Project final shape
+  {
+    $project: {
+      productName: "$productInfo.name",
+      category: "$productInfo.category",
+      totalQuantity: 1,
+      totalRevenue: 1,
+      avgOrderValue: { 
+        $divide: ["$totalRevenue", "$orderCount"] 
+      }
+    }
+  },
+  
+  // Stage 7: Sort by revenue
+  {
+    $sort: { totalRevenue: -1 }
+  },
+  
+  // Stage 8: Limit to top 10
+  {
+    $limit: 10
+  }
+])
+                                    </div>
+
+                                    <h4>Accumulator Operators:</h4>
+                                    <div class="code-block">
+// Sum
+{ $sum: "$amount" }
+
+// Average
+{ $avg: "$score" }
+
+// Min/Max
+{ $min: "$price" }
+{ $max: "$price" }
+
+// First/Last
+{ $first: "$status" }
+{ $last: "$status" }
+
+// Push (create array)
+{ $push: "$item" }
+
+// Add to set (unique array)
+{ $addToSet: "$category" }
+
+// Standard deviation
+{ $stdDevPop: "$score" }
+{ $stdDevSamp: "$score" }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Node.js Driver -->
+                            <div id="nodejs" class="section-header">
+                                <h1><i class="ti ti-brand-nodejs"></i> 10. MongoDB Node.js Driver</h1>
+                                <p class="lead">Using MongoDB with Node.js</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>Installation and Setup</h3>
+
+                                    <h4>Install MongoDB Driver:</h4>
+                                    <div class="code-block">
+npm install mongodb
+                                    </div>
+
+                                    <h4>Basic Connection:</h4>
+                                    <div class="code-block">
+const { MongoClient } = require('mongodb');
+
+// Connection URI
+const uri = "mongodb://localhost:27017";
+
+// Create client
+const client = new MongoClient(uri);
+
+async function connectDB() {
+  try {
+    // Connect to MongoDB
+    await client.connect();
+    console.log("Connected to MongoDB");
+    
+    // Get database
+    const database = client.db('myDatabase');
+    
+    // Get collection
+    const users = database.collection('users');
+    
+    return { database, users };
+  } catch (error) {
+    console.error("Connection error:", error);
+  }
+}
+
+// Close connection
+async function closeDB() {
+  await client.close();
+}
+                                    </div>
+
+                                    <h4>Connection with Options:</h4>
+                                    <div class="code-block">
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  maxPoolSize: 10,
+  minPoolSize: 5,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+});
+                                    </div>
+
+                                    <h4>CRUD Operations in Node.js:</h4>
+                                    <div class="code-block">
+const { MongoClient, ObjectId } = require('mongodb');
+
+class DatabaseService {
+  constructor(uri, dbName) {
+    this.client = new MongoClient(uri);
+    this.dbName = dbName;
+  }
+
+  async connect() {
+    await this.client.connect();
+    this.db = this.client.db(this.dbName);
+  }
+
+  // Create
+  async insertUser(userData) {
+    const users = this.db.collection('users');
+    const result = await users.insertOne(userData);
+    return result;
+  }
+
+  async insertManyUsers(usersArray) {
+    const users = this.db.collection('users');
+    const result = await users.insertMany(usersArray);
+    return result;
+  }
+
+  // Read
+  async findUsers(query = {}) {
+    const users = this.db.collection('users');
+    const cursor = users.find(query);
+    return await cursor.toArray();
+  }
+
+  async findOneUser(query) {
+    const users = this.db.collection('users');
+    return await users.findOne(query);
+  }
+
+  async findUserById(id) {
+    const users = this.db.collection('users');
+    return await users.findOne({ _id: new ObjectId(id) });
+  }
+
+  // Update
+  async updateUser(query, updateData) {
+    const users = this.db.collection('users');
+    const result = await users.updateOne(
+      query,
+      { $set: updateData }
+    );
+    return result;
+  }
+
+  async updateManyUsers(query, updateData) {
+    const users = this.db.collection('users');
+    const result = await users.updateMany(
+      query,
+      { $set: updateData }
+    );
+    return result;
+  }
+
+  // Delete
+  async deleteUser(query) {
+    const users = this.db.collection('users');
+    const result = await users.deleteOne(query);
+    return result;
+  }
+
+  async deleteManyUsers(query) {
+    const users = this.db.collection('users');
+    const result = await users.deleteMany(query);
+    return result;
+  }
+
+  // Aggregation
+  async aggregateUsers(pipeline) {
+    const users = this.db.collection('users');
+    const cursor = users.aggregate(pipeline);
+    return await cursor.toArray();
+  }
+
+  async close() {
+    await this.client.close();
+  }
+}
+
+// Usage
+async function main() {
+  const db = new DatabaseService('mongodb://localhost:27017', 'myApp');
+  
+  try {
+    await db.connect();
+    
+    // Insert
+    const newUser = await db.insertUser({
+      name: "John Doe",
+      email: "john@example.com",
+      age: 30
+    });
+    
+    // Find
+    const users = await db.findUsers({ age: { $gte: 25 } });
+    console.log(users);
+    
+    // Update
+    await db.updateUser(
+      { email: "john@example.com" },
+      { age: 31 }
+    );
+    
+    // Delete
+    await db.deleteUser({ email: "old@example.com" });
+    
+  } finally {
+    await db.close();
+  }
+}
+
+main().catch(console.error);
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mongoose -->
+                            <div id="mongoose" class="section-header">
+                                <h1><i class="ti ti-paw"></i> 11. Mongoose ODM</h1>
+                                <p class="lead">Object Data Modeling for MongoDB</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>Mongoose Installation and Setup</h3>
+
+                                    <h4>Installation:</h4>
+                                    <div class="code-block">
+npm install mongoose
+                                    </div>
+
+                                    <h4>Basic Connection:</h4>
+                                    <div class="code-block">
+const mongoose = require('mongoose');
+
+// Connection string
+const uri = 'mongodb://localhost:27017/myDatabase';
+
+// Connect
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error('Connection error:', err));
+
+// Connection events
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('Mongoose connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('Mongoose disconnected');
+});
+
+// Close connection
+process.on('SIGINT', async () => {
+  await mongoose.connection.close();
+  process.exit(0);
+});
+                                    </div>
+
+                                    <h4>Schema Definition:</h4>
+                                    <div class="code-block">
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+// Define schema
+const userSchema = new Schema({
+  name: {
+    type: String,
+    required: [true, 'Name is required'],
+    trim: true,
+    minlength: [3, 'Name must be at least 3 characters'],
+    maxlength: [50, 'Name cannot exceed 50 characters']
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    match: [/^\S+@\S+\.\S+$/, 'Invalid email format']
+  },
+  age: {
+    type: Number,
+    min: [18, 'Must be at least 18'],
+    max: [100, 'Age cannot exceed 100']
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 6,
+    select: false // Don't include in queries by default
+  },
+  role: {
+    type: String,
+    enum: ['user', 'admin', 'moderator'],
+    default: 'user'
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  skills: [String],
+  address: {
+    street: String,
+    city: String,
+    state: String,
+    zipcode: String
+  },
+  socialMedia: {
+    twitter: String,
+    linkedin: String,
+    github: String
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  timestamps: true, // Automatically add createdAt and updatedAt
+  collection: 'users' // Explicit collection name
+});
+
+// Create model
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
+                                    </div>
+
+                                    <h4>Schema Types:</h4>
+                                    <div class="code-block">
+// All Schema Types
+const exampleSchema = new Schema({
+  stringField: String,
+  numberField: Number,
+  dateField: Date,
+  bufferField: Buffer,
+  booleanField: Boolean,
+  mixedField: Schema.Types.Mixed,
+  objectIdField: Schema.Types.ObjectId,
+  arrayField: [],
+  arrayOfStrings: [String],
+  arrayOfNumbers: [Number],
+  nestedObject: {
+    field1: String,
+    field2: Number
+  },
+  arrayOfObjects: [{
+    name: String,
+    value: Number
+  }],
+  decimalField: Schema.Types.Decimal128,
+  mapField: Map
+});
+                                    </div>
+
+                                    <h4>Schema Methods:</h4>
+                                    <div class="code-block">
+// Instance methods
+userSchema.methods.getFullProfile = function() {
+  return {
+    name: this.name,
+    email: this.email,
+    age: this.age,
+    role: this.role
+  };
+};
+
+userSchema.methods.incrementAge = function() {
+  this.age += 1;
+  return this.save();
+};
+
+// Static methods
+userSchema.statics.findByEmail = function(email) {
+  return this.findOne({ email });
+};
+
+userSchema.statics.findActiveUsers = function() {
+  return this.find({ isActive: true });
+};
+
+// Query helpers
+userSchema.query.byAge = function(age) {
+  return this.where({ age });
+};
+
+userSchema.query.active = function() {
+  return this.where({ isActive: true });
+};
+
+// Usage
+const user = await User.findOne();
+const profile = user.getFullProfile();
+await user.incrementAge();
+
+const foundUser = await User.findByEmail('john@example.com');
+const activeUsers = await User.findActiveUsers();
+const result = await User.find().byAge(30).active();
+                                    </div>
+
+                                    <h4>Virtual Properties:</h4>
+                                    <div class="code-block">
+// Virtual property (not stored in DB)
+userSchema.virtual('fullName').get(function() {
+  return `${this.firstName} ${this.lastName}`;
+});
+
+userSchema.virtual('fullName').set(function(name) {
+  const parts = name.split(' ');
+  this.firstName = parts[0];
+  this.lastName = parts[1];
+});
+
+// Enable virtuals in JSON
+userSchema.set('toJSON', { virtuals: true });
+userSchema.set('toObject', { virtuals: true });
+                                    </div>
+
+                                    <h4>Middleware (Hooks):</h4>
+                                    <div class="code-block">
+const bcrypt = require('bcrypt');
+
+// Pre-save middleware
+userSchema.pre('save', async function(next) {
+  // Only hash if password is modified
+  if (!this.isModified('password')) return next();
+  
+  try {
+    // Hash password
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Pre-update middleware
+userSchema.pre('findOneAndUpdate', function(next) {
+  this.set({ updatedAt: new Date() });
+  next();
+});
+
+// Post-save middleware
+userSchema.post('save', function(doc, next) {
+  console.log(`User ${doc.name} has been saved`);
+  next();
+});
+
+// Pre-remove middleware
+userSchema.pre('remove', async function(next) {
+  // Clean up related documents
+  await mongoose.model('Post').deleteMany({ author: this._id });
+  next();
+});
+
+// Post-find middleware
+userSchema.post('find', function(docs) {
+  console.log(`Found ${docs.length} documents`);
+});
+                                    </div>
+
+                                    <h4>Validation:</h4>
+                                    <div class="code-block">
+// Custom validators
+userSchema.path('email').validate(async function(email) {
+  const user = await mongoose.models.User.findOne({ email });
+  if (user) return false;
+  return true;
+}, 'Email already exists');
+
+// Custom async validator
+userSchema.path('username').validate({
+  validator: async function(username) {
+    const count = await mongoose.models.User.countDocuments({ username });
+    return count === 0;
+  },
+  message: 'Username already taken'
+});
+
+// Validation with function
+userSchema.path('age').validate(function(value) {
+  return value >= 18 && value <= 100;
+}, 'Age must be between 18 and 100');
+                                    </div>
+
+                                    <h4>Mongoose CRUD Operations:</h4>
+                                    <div class="code-block">
+const User = require('./models/User');
+
+// CREATE
+// Method 1: Using constructor and save
+const user1 = new User({
+  name: 'John Doe',
+  email: 'john@example.com',
+  age: 30
+});
+await user1.save();
+
+// Method 2: Using create
+const user2 = await User.create({
+  name: 'Jane Smith',
+  email: 'jane@example.com',
+  age: 28
+});
+
+// Method 3: Insert many
+const users = await User.insertMany([
+  { name: 'User1', email: 'user1@example.com', age: 25 },
+  { name: 'User2', email: 'user2@example.com', age: 30 }
+]);
+
+// READ
+// Find all
+const allUsers = await User.find();
+
+// Find with conditions
+const developers = await User.find({ role: 'developer' });
+
+// Find one
+const user = await User.findOne({ email: 'john@example.com' });
+
+// Find by ID
+const userById = await User.findById('507f1f77bcf86cd799439011');
+
+// With projections
+const usersProjected = await User.find({}, 'name email -_id');
+
+// With sorting
+const sortedUsers = await User.find().sort({ age: -1, name: 1 });
+
+// With limit and skip
+const paginatedUsers = await User.find()
+  .skip(10)
+  .limit(5);
+
+// With population (if referenced)
+const userWithPosts = await User.findById(userId)
+  .populate('posts');
+
+// Lean (plain JavaScript object)
+const leanUser = await User.findOne({ email: 'john@example.com' })
+  .lean();
+
+// Select specific fields
+const selectedFields = await User.find()
+  .select('name email')
+  .select('-password');
+
+// UPDATE
+// Method 1: Find and modify
+const user = await User.findOne({ email: 'john@example.com' });
+user.age = 31;
+await user.save();
+
+// Method 2: updateOne
+const result1 = await User.updateOne(
+  { email: 'john@example.com' },
+  { $set: { age: 31 } }
+);
+
+// Method 3: updateMany
+const result2 = await User.updateMany(
+  { role: 'user' },
+  { $set: { isActive: true } }
+);
+
+// Method 4: findByIdAndUpdate
+const updatedUser1 = await User.findByIdAndUpdate(
+  userId,
+  { age: 32 },
+  { new: true, runValidators: true }
+);
+
+// Method 5: findOneAndUpdate
+const updatedUser2 = await User.findOneAndUpdate(
+  { email: 'john@example.com' },
+  { $inc: { age: 1 } },
+  { new: true }
+);
+
+// DELETE
+// Method 1: Find and remove
+const user = await User.findOne({ email: 'delete@example.com' });
+await user.remove();
+
+// Method 2: deleteOne
+const result1 = await User.deleteOne({ email: 'delete@example.com' });
+
+// Method 3: deleteMany
+const result2 = await User.deleteMany({ isActive: false });
+
+// Method 4: findByIdAndDelete
+const deletedUser1 = await User.findByIdAndDelete(userId);
+
+// Method 5: findOneAndDelete
+const deletedUser2 = await User.findOneAndDelete({ 
+  email: 'delete@example.com' 
+});
+
+// COUNT
+const count = await User.countDocuments({ role: 'developer' });
+const estimatedCount = await User.estimatedDocumentCount();
+
+// EXISTS
+const exists = await User.exists({ email: 'john@example.com' });
+                                    </div>
+
+                                    <h4>Advanced Queries:</h4>
+                                    <div class="code-block">
+// Comparison operators
+const users1 = await User.find({ age: { $gt: 25 } });
+const users2 = await User.find({ age: { $gte: 25, $lte: 40 } });
+const users3 = await User.find({ role: { $in: ['admin', 'moderator'] } });
+
+// Logical operators
+const users4 = await User.find({
+  $or: [
+    { age: { $lt: 25 } },
+    { age: { $gt: 60 } }
+  ]
+});
+
+const users5 = await User.find({
+  $and: [
+    { role: 'developer' },
+    { isActive: true }
+  ]
+});
+
+// Regex
+const users6 = await User.find({ 
+  name: /^John/i 
+});
+
+const users7 = await User.find({ 
+  email: { $regex: '@gmail.com$', $options: 'i' } 
+});
+
+// Array queries
+const users8 = await User.find({ 
+  skills: 'JavaScript' 
+});
+
+const users9 = await User.find({ 
+  skills: { $all: ['JavaScript', 'MongoDB'] } 
+});
+
+const users10 = await User.find({ 
+  skills: { $size: 3 } 
+});
+
+// Nested fields
+const users11 = await User.find({ 
+  'address.city': 'New York' 
+});
+
+// Exists
+const users12 = await User.find({ 
+  phone: { $exists: true } 
+});
+
+// Type checking
+const users13 = await User.find({ 
+  age: { $type: 'number' } 
+});
+                                    </div>
+
+                                    <h4>Aggregation with Mongoose:</h4>
+                                    <div class="code-block">
+// Simple aggregation
+const result = await User.aggregate([
+  { $match: { isActive: true } },
+  { $group: {
+      _id: '$role',
+      count: { $sum: 1 },
+      avgAge: { $avg: '$age' }
+    }
+  },
+  { $sort: { count: -1 } }
+]);
+
+// Complex aggregation
+const stats = await User.aggregate([
+  {
+    $match: {
+      createdAt: { 
+        $gte: new Date('2024-01-01') 
+      }
+    }
+  },
+  {
+    $group: {
+      _id: {
+        year: { $year: '$createdAt' },
+        month: { $month: '$createdAt' }
+      },
+      users: { $sum: 1 },
+      avgAge: { $avg: '$age' }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      year: '$_id.year',
+      month: '$_id.month',
+      users: 1,
+      avgAge: { $round: ['$avgAge', 2] }
+    }
+  },
+  {
+    $sort: { year: -1, month: -1 }
+  }
+]);
+                                    </div>
+
+                                    <h4>Relationships and Population:</h4>
+                                    <div class="code-block">
+// One-to-Many: User has many Posts
+const userSchema = new Schema({
+  name: String,
+  posts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Post'
+  }]
+});
+
+const postSchema = new Schema({
+  title: String,
+  content: String,
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
+});
+
+// Populate posts
+const user = await User.findById(userId)
+  .populate('posts');
+
+// Populate with select
+const user2 = await User.findById(userId)
+  .populate('posts', 'title createdAt');
+
+// Nested population
+const post = await Post.findById(postId)
+  .populate({
+    path: 'author',
+    populate: {
+      path: 'posts',
+      select: 'title'
+    }
+  });
+
+// Multiple populations
+const user3 = await User.findById(userId)
+  .populate('posts')
+  .populate('comments')
+  .populate('followers');
+
+// Virtual populate
+userSchema.virtual('postCount', {
+  ref: 'Post',
+  localField: '_id',
+  foreignField: 'author',
+  count: true
+});
+                                    </div>
+
+                                    <h4>Transactions:</h4>
+                                    <div class="code-block">
+const session = await mongoose.startSession();
+
+try {
+  await session.withTransaction(async () => {
+    // Create user
+    const user = await User.create([{
+      name: 'Transaction User',
+      email: 'trans@example.com'
+    }], { session });
+
+    // Create post
+    await Post.create([{
+      title: 'Transaction Post',
+      author: user[0]._id
+    }], { session });
+
+    // Both operations succeed or both fail
+  });
+} catch (error) {
+  console.error('Transaction failed:', error);
+} finally {
+  await session.endSession();
+}
+                                    </div>
+
+                                    <h4>Indexes:</h4>
+                                    <div class="code-block">
+// Single field index
+userSchema.index({ email: 1 });
+
+// Compound index
+userSchema.index({ role: 1, age: -1 });
+
+// Unique index
+userSchema.index({ email: 1 }, { unique: true });
+
+// Text index
+userSchema.index({ name: 'text', bio: 'text' });
+
+// Sparse index
+userSchema.index({ phone: 1 }, { sparse: true });
+
+// TTL index (expire documents)
+userSchema.index(
+  { createdAt: 1 }, 
+  { expireAfterSeconds: 3600 }
+);
+
+// Create indexes
+await User.createIndexes();
+
+// List indexes
+const indexes = await User.listIndexes();
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Webpack -->
+                            <div id="webpack" class="section-header">
+                                <h1><i class="ti ti-package"></i> 12. Modularization and Webpack</h1>
+                                <p class="lead">Module bundling and optimization</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>Back-End Modules (Node.js)</h3>
+
+                                    <h4>CommonJS Module Pattern:</h4>
+                                    <div class="code-block">
+// database.js
+const mongoose = require('mongoose');
+
+class Database {
+  constructor(uri) {
+    this.uri = uri;
+  }
+
+  async connect() {
+    await mongoose.connect(this.uri);
+    console.log('Database connected');
+  }
+
+  async disconnect() {
+    await mongoose.disconnect();
+  }
+}
+
+module.exports = Database;
+
+// userController.js
+const User = require('./models/User');
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.createUser = async (req, res) => {
+  try {
+    const user = await User.create(req.body);
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+                                    </div>
+
+                                    <h4>ES6 Module Pattern:</h4>
+                                    <div class="code-block">
+// database.js
+import mongoose from 'mongoose';
+
+export class Database {
+  constructor(uri) {
+    this.uri = uri;
+  }
+
+  async connect() {
+    await mongoose.connect(this.uri);
+    console.log('Database connected');
+  }
+}
+
+export default Database;
+
+// userService.js
+import User from './models/User.js';
+
+export const findAllUsers = async () => {
+  return await User.find();
+};
+
+export const findUserById = async (id) => {
+  return await User.findById(id);
+};
+
+export const createUser = async (userData) => {
+  return await User.create(userData);
+};
+
+// app.js
+import Database from './database.js';
+import { findAllUsers, createUser } from './userService.js';
+                                    </div>
+
+                                    <h3>Front-End Modules</h3>
+
+                                    <h4>ES6 Modules:</h4>
+                                    <div class="code-block">
+// api.js
+export const API_URL = 'http://localhost:3000/api';
+
+export async function fetchUsers() {
+  const response = await fetch(`${API_URL}/users`);
+  return response.json();
+}
+
+export async function createUser(userData) {
+  const response = await fetch(`${API_URL}/users`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userData)
+  });
+  return response.json();
+}
+
+// utils.js
+export const formatDate = (date) => {
+  return new Date(date).toLocaleDateString();
+};
+
+export const capitalize = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+// app.js
+import { fetchUsers, createUser } from './api.js';
+import { formatDate } from './utils.js';
+
+async function displayUsers() {
+  const users = await fetchUsers();
+  users.forEach(user => {
+    console.log(user.name, formatDate(user.createdAt));
+  });
+}
+                                    </div>
+
+                                    <h3>Webpack Configuration</h3>
+
+                                    <h4>Installation:</h4>
+                                    <div class="code-block">
+npm install --save-dev webpack webpack-cli webpack-dev-server
+npm install --save-dev html-webpack-plugin
+npm install --save-dev style-loader css-loader
+npm install --save-dev babel-loader @babel/core @babel/preset-env
+                                    </div>
+
+                                    <h4>webpack.config.js:</h4>
+                                    <div class="code-block">
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  mode: 'development',
+  
+  entry: './src/index.js',
+  
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.[contenthash].js',
+    clean: true
+  },
+  
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource'
+      }
+    ]
+  },
+  
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      filename: 'index.html'
+    })
+  ],
+  
+  devServer: {
+    static: './dist',
+    port: 8080,
+    hot: true,
+    open: true
+  },
+  
+  resolve: {
+    extensions: ['.js', '.json'],
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    }
+  }
+};
+                                    </div>
+
+                                    <h4>Production Configuration:</h4>
+                                    <div class="code-block">
+const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+module.exports = {
+  mode: 'production',
+  
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'js/[name].[contenthash].js',
+    clean: true
+  },
+  
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true
+          }
+        }
+      }),
+      new CssMinimizerPlugin()
+    ],
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          priority: 10
+        },
+        common: {
+          minChunks: 2,
+          priority: 5,
+          reuseExistingChunk: true
+        }
+      }
+    }
+  },
+  
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[contenthash].css'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    })
+  ]
+};
+                                    </div>
+
+                                    <h4>Hot Module Replacement (HMR):</h4>
+                                    <div class="code-block">
+// webpack.config.js
+module.exports = {
+  devServer: {
+    hot: true,
+    hotOnly: true
+  },
+  
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ]
+};
+
+// index.js
+import { render } from './app.js';
+
+render();
+
+// Enable HMR
+if (module.hot) {
+  module.hot.accept('./app.js', () => {
+    console.log('Accepting the updated module');
+    render();
+  });
+}
+                                    </div>
+
+                                    <h4>Library Bundle:</h4>
+                                    <div class="code-block">
+// webpack.config.js for library
+module.exports = {
+  entry: './src/index.js',
+  
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'my-library.js',
+    library: 'MyLibrary',
+    libraryTarget: 'umd',
+    globalObject: 'this'
+  },
+  
+  externals: {
+    // Don't bundle these dependencies
+    mongoose: 'mongoose',
+    express: 'express'
+  }
+};
+                                    </div>
+
+                                    <h4>Code Splitting:</h4>
+                                    <div class="code-block">
+// Dynamic imports
+button.addEventListener('click', async () => {
+  const module = await import('./heavyModule.js');
+  module.doSomething();
+});
+
+// Multiple entry points
+module.exports = {
+  entry: {
+    app: './src/app.js',
+    admin: './src/admin.js'
+  },
+  
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  }
+};
+
+// Prefetching/Preloading
+import(/* webpackPrefetch: true */ './someModule.js');
+import(/* webpackPreload: true */ './criticalModule.js');
+                                    </div>
+
+                                    <h4>Environment Variables:</h4>
+                                    <div class="code-block">
+// .env
+MONGO_URI=mongodb://localhost:27017/mydb
+API_KEY=your_api_key
+
+// webpack.config.js
+const Dotenv = require('dotenv-webpack');
+
+module.exports = {
+  plugins: [
+    new Dotenv()
+  ]
+};
+
+// Using in code
+console.log(process.env.MONGO_URI);
+                                    </div>
+
+                                    <h4>Package.json Scripts:</h4>
+                                    <div class="code-block">
+{
+  "scripts": {
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "watch": "webpack --watch",
+    "analyze": "webpack-bundle-analyzer dist/stats.json"
+  }
+}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Debugging -->
+                            <div id="debugging" class="section-header">
+                                <h1><i class="ti ti-bug"></i> 13. Debugging MongoDB Applications</h1>
+                                <p class="lead">Tips and techniques for debugging</p>
+                            </div>
+
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3>MongoDB Debugging Techniques</h3>
+
+                                    <h4>Enable Debug Mode:</h4>
+                                    <div class="code-block">
+// Mongoose debug mode
+mongoose.set('debug', true);
+
+// With custom function
+mongoose.set('debug', function(collectionName, method, query, doc) {
+  console.log(`${collectionName}.${method}`, JSON.stringify(query), doc);
+});
+
+// MongoDB driver debug
+process.env.MONGODB_LOG_LEVEL = 'debug';
+                                    </div>
+
+                                    <h4>Query Profiling:</h4>
+                                    <div class="code-block">
+// Enable profiling
+db.setProfilingLevel(2) // Log all operations
+
+// Check profiler
+db.system.profile.find().limit(5).sort({ ts: -1 }).pretty()
+
+// Explain query
+db.users.find({ age: { $gt: 25 } }).explain("executionStats")
+
+// With Mongoose
+const result = await User.find({ age: { $gt: 25 } })
+  .explain('executionStats');
+console.log(result);
+                                    </div>
+
+                                    <h4>Error Handling:</h4>
+                                    <div class="code-block">
+// Try-catch with async/await
+try {
+  const user = await User.create({ name: 'John' });
+  console.log('User created:', user);
+} catch (error) {
+  if (error.name === 'ValidationError') {
+    console.error('Validation failed:', error.errors);
+  } else if (error.code === 11000) {
+    console.error('Duplicate key error:', error.keyValue);
+  } else {
+    console.error('Unexpected error:', error);
+  }
+}
+
+// Global error handler
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
+
+// Express error middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({
+      error: 'Validation Error',
+      details: err.errors
+    });
+  }
+  
+  if (err.name === 'CastError') {
+    return res.status(400).json({
+      error: 'Invalid ID format'
+    });
+  }
+  
+  res.status(500).json({
+    error: 'Internal Server Error'
+  });
+});
+                                    </div>
+
+                                    <h4>Logging:</h4>
+                                    <div class="code-block">
+// Winston logger
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
+
+// Log database operations
+userSchema.post('save', function(doc) {
+  logger.info('User saved', { userId: doc._id, name: doc.name });
+});
+
+userSchema.post('remove', function(doc) {
+  logger.info('User removed', { userId: doc._id });
+});
+                                    </div>
+
+                                    <h4>VS Code Debugging:</h4>
+                                    <div class="code-block">
+// .vscode/launch.json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug MongoDB App",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/app.js",
+      "env": {
+        "NODE_ENV": "development",
+        "MONGO_URI": "mongodb://localhost:27017/mydb"
+      }
+    }
+  ]
+}
+                                    </div>
+
+                                    <h4>Performance Monitoring:</h4>
+                                    <div class="code-block">
+// Measure query performance
+console.time('Query Time');
+const users = await User.find({ age: { $gt: 25 } });
+console.timeEnd('Query Time');
+
+// Connection pool monitoring
+const db = mongoose.connection;
+console.log('Connection pool size:', db.client.s.options.maxPoolSize);
+
+// Monitor slow queries
+userSchema.pre('find', function() {
+  this._startTime = Date.now();
+});
+
+userSchema.post('find', function() {
+  const elapsed = Date.now() - this._startTime;
+  if (elapsed > 100) {
+    console.warn(`Slow query detected: ${elapsed}ms`);
+  }
+});
+                                    </div>
+
+                                    <h4>Common Issues and Solutions:</h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Issue</th>
+                                                    <th>Solution</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Connection timeout</td>
+                                                    <td>Check MongoDB service, network, firewall settings</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Duplicate key error</td>
+                                                    <td>Check unique indexes, handle error in code</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Validation errors</td>
+                                                    <td>Review schema validation rules</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Slow queries</td>
+                                                    <td>Add indexes, optimize queries, use explain()</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Memory issues</td>
+                                                    <td>Use pagination, limit(), lean()</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Stale connections</td>
+                                                    <td>Implement connection retry logic</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="tip-box">
+                                        <strong><i class="ti ti-bulb"></i> Best Practices:</strong>
+                                        <ul>
+                                            <li>Always use connection pooling</li>
+                                            <li>Implement proper error handling</li>
+                                            <li>Use indexes for frequently queried fields</li>
+                                            <li>Monitor query performance regularly</li>
+                                            <li>Use lean() for read-only operations</li>
+                                            <li>Implement request logging</li>
+                                            <li>Use transactions for critical operations</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Summary Card -->
+                            <div class="card bg-primary text-white mb-3">
+                                <div class="card-body">
+                                    <h2 class="card-title">Summary</h2>
+                                    <p class="lead">MongoDB is a powerful NoSQL database that provides:</p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul>
+                                                <li>Flexible document-based storage</li>
+                                                <li>Rich query language</li>
+                                                <li>Powerful aggregation framework</li>
+                                                <li>Horizontal scalability</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul>
+                                                <li>ACID transactions</li>
+                                                <li>Native Node.js support</li>
+                                                <li>Mongoose ODM for schema validation</li>
+                                                <li>Excellent performance</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer footer-transparent d-print-none">
+            <div class="container-xl">
+                <div class="row text-center align-items-center">
+                    <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                        <ul class="list-inline list-inline-dots mb-0">
+                            <li class="list-inline-item">
+                                MongoDB Complete Guide © 2024
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.mongodb.com/docs/" target="_blank" class="link-secondary">
+                                    Official Documentation
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Tabler Core -->
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
+    
+    <!-- Smooth Scrolling -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight active section in sidebar
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('[id]');
+            const scrollY = window.pageYOffset;
+
+            sections.forEach(section => {
+                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 100;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    document.querySelectorAll('.list-group-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    document.querySelector(`a[href="#${sectionId}"]`)?.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
