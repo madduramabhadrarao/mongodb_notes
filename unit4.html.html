@@ -1,0 +1,2414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React, Express & GraphQL - Complete Theory Notes</title>
+    
+    <!-- Tabler CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/css/tabler.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" rel="stylesheet">
+    
+    <!-- Prism.js for Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet">
+    
+    <!-- Mermaid for Diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #206bc4;
+            --secondary-color: #4299e1;
+            --success-color: #2fb344;
+            --danger-color: #d63939;
+            --warning-color: #f59f00;
+            --info-color: #4299e1;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+        
+        .main-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .hero-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 5px solid #f59f00;
+        }
+        
+        .hero-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .hero-header .lead {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+        
+        .nav-tabs-custom {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 3px solid #dee2e6;
+        }
+        
+        .nav-tabs-custom .nav-link {
+            color: #495057;
+            font-weight: 600;
+            border: none;
+            margin: 0 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .nav-tabs-custom .nav-link:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+        
+        .nav-tabs-custom .nav-link.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(32, 107, 196, 0.3);
+        }
+        
+        .content-section {
+            padding: 2rem;
+        }
+        
+        .topic-card {
+            margin-bottom: 2rem;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .topic-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transform: translateY(-4px);
+        }
+        
+        .topic-card .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .topic-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: white;
+            color: #667eea;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+        
+        .concept-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left: 5px solid #2196F3;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+        
+        .concept-box h5 {
+            color: #1976D2;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .key-point {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 5px solid #ff9800;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+        
+        .key-point strong {
+            color: #e65100;
+            font-size: 1.1rem;
+        }
+        
+        .example-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid #dee2e6;
+        }
+        
+        .example-header {
+            background: linear-gradient(135deg, #2fb344 0%, #27a03b 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .example-header i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .code-title {
+            background: #2d3748;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .code-title::before {
+            content: "📄";
+            margin-right: 0.5rem;
+        }
+        
+        pre[class*="language-"] {
+            margin-top: 0 !important;
+            border-radius: 0 0 8px 8px !important;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .output-preview {
+            background: #1e1e1e;
+            color: #4CAF50;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin-top: 1rem;
+            border: 2px solid #333;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .output-preview::before {
+            content: "▶ OUTPUT:";
+            color: #FFC107;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .comparison-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .comparison-table th {
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .comparison-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .diagram-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border: 3px solid #e3f2fd;
+        }
+        
+        .diagram-container h5 {
+            color: #1976D2;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+        
+        .badge-custom {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .list-styled {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .list-styled li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+        
+        .list-styled li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .note-box {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            border-left: 5px solid #fbc02d;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+        
+        .note-box::before {
+            content: "💡 Note:";
+            display: block;
+            font-weight: 700;
+            color: #f57f17;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-left: 5px solid #f44336;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+        
+        .warning-box::before {
+            content: "⚠️ Warning:";
+            display: block;
+            font-weight: 700;
+            color: #c62828;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 5px solid #4caf50;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+        
+        .success-box::before {
+            content: "✅ Best Practice:";
+            display: block;
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .method-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-family: monospace;
+            margin: 0.2rem;
+        }
+        
+        .method-get { background: #2196F3; color: white; }
+        .method-post { background: #4CAF50; color: white; }
+        .method-put { background: #FF9800; color: white; }
+        .method-patch { background: #FFC107; color: white; }
+        .method-delete { background: #F44336; color: white; }
+        
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .section-divider {
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--success-color));
+            margin: 3rem 0;
+            border-radius: 2px;
+        }
+
+        @media print {
+            body { background: white; }
+            .nav-tabs-custom { display: none; }
+            .topic-card { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Header -->
+    <div class="hero-header">
+        <div class="container">
+            <h1>
+                <i class="ti ti-book"></i>
+                React, Express & GraphQL
+            </h1>
+            <p class="lead">Complete Theory Notes with Detailed Examples</p>
+            <div class="mt-3">
+                <span class="badge badge-custom bg-white text-primary me-2">React 18+</span>
+                <span class="badge badge-custom bg-white text-success me-2">Express 4+</span>
+                <span class="badge badge-custom bg-white text-info">GraphQL</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-xl main-container">
+        <!-- Navigation Tabs -->
+        <div class="sticky-header">
+            <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#react-tab">
+                        <i class="ti ti-brand-react"></i> React
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#express-tab">
+                        <i class="ti ti-server"></i> Express
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#rest-tab">
+                        <i class="ti ti-api"></i> REST API
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#graphql-tab">
+                        <i class="ti ti-graph"></i> GraphQL
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            
+            <!-- REACT TAB -->
+            <div class="tab-pane fade show active" id="react-tab">
+                <div class="content-section">
+                    <h2 class="mb-4">React State Management - Complete Guide</h2>
+                    
+                    <!-- Topic 1: Initial State -->
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">1</span>
+                            Initial State
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> What is State?</h5>
+                                <p><strong>State</strong> is data that changes over time within a component. It's like a component's memory that determines what it renders and how it behaves.</p>
+                            </div>
+
+                            <div class="key-point">
+                                <strong>Key Points About Initial State:</strong>
+                                <ul class="list-styled">
+                                    <li>State is initialized using <code>useState</code> hook</li>
+                                    <li>Can be any data type: number, string, boolean, object, array</li>
+                                    <li>Set once during component's first render</li>
+                                    <li>Private to the component (not accessible to others)</li>
+                                </ul>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Simple Counter with Initial State
+                                </div>
+                                
+                                <div class="code-title">Counter.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+
+function Counter() {
+  // useState returns [currentValue, updaterFunction]
+  // Initial state is 0
+  const [count, setCount] = useState(0);
+  
+  return (
+    &lt;div className="card"&gt;
+      &lt;div className="card-body text-center"&gt;
+        &lt;h2&gt;Count: {count}&lt;/h2&gt;
+        &lt;button 
+          className="btn btn-primary"
+          onClick={() => setCount(count + 1)}
+        &gt;
+          Increment
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Counter;</code></pre>
+
+                                <div class="output-preview">
+Initial Render: Count: 0
+After Click: Count: 1
+After Click: Count: 2
+                                </div>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Different Data Types
+                                </div>
+                                
+                                <div class="code-title">MultipleStates.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+
+function MultipleStates() {
+  // String
+  const [name, setName] = useState('John Doe');
+  
+  // Boolean
+  const [isActive, setIsActive] = useState(true);
+  
+  // Object
+  const [user, setUser] = useState({
+    age: 25,
+    city: 'Mumbai'
+  });
+  
+  // Array
+  const [hobbies, setHobbies] = useState(['Reading', 'Coding']);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Name: {name}&lt;/p&gt;
+      &lt;p&gt;Active: {isActive ? 'Yes' : 'No'}&lt;/p&gt;
+      &lt;p&gt;Age: {user.age}, City: {user.city}&lt;/p&gt;
+      &lt;p&gt;Hobbies: {hobbies.join(', ')}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 2: Async State Initialization -->
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">2</span>
+                            Async State Initialization (Lazy Initialization)
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> What is Lazy Initialization?</h5>
+                                <p>When initial state requires expensive computation, pass a function to useState. This function runs only once during initial render.</p>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Lazy Initialization
+                                </div>
+                                
+                                <div class="code-title">LazyInit.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+
+function expensiveCalculation() {
+  console.log('Running expensive calculation...');
+  let sum = 0;
+  for (let i = 0; i < 1000000; i++) {
+    sum += i;
+  }
+  return sum;
+}
+
+function LazyInit() {
+  // ❌ BAD: Runs on every render
+  const [value1] = useState(expensiveCalculation());
+  
+  // ✅ GOOD: Runs only on initial render
+  const [value2] = useState(() => expensiveCalculation());
+  
+  // Reading from localStorage
+  const [settings] = useState(() => {
+    const saved = localStorage.getItem('settings');
+    return saved ? JSON.parse(saved) : { theme: 'light' };
+  });
+  
+  return &lt;div&gt;Value: {value2}&lt;/div&gt;;
+}</code></pre>
+                            </div>
+
+                            <div class="success-box">
+                                Use lazy initialization when:
+                                <ul>
+                                    <li>Reading from localStorage/sessionStorage</li>
+                                    <li>Complex calculations</li>
+                                    <li>Creating large data structures</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 3: Updating State -->
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">3</span>
+                            Updating State
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> How to Update State?</h5>
+                                <p>State updates trigger re-renders. Use setter function from useState.</p>
+                            </div>
+
+                            <div class="warning-box">
+                                When new state depends on previous state, ALWAYS use functional update form to avoid stale state bugs!
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Direct vs Functional Updates
+                                </div>
+                                
+                                <div class="code-title">StateUpdate.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+
+function StateUpdate() {
+  const [count, setCount] = useState(0);
+  
+  // ❌ RISKY: Direct update
+  const incrementDirect = () => {
+    setCount(count + 1);
+  };
+  
+  // ✅ SAFE: Functional update
+  const incrementFunctional = () => {
+    setCount(prevCount => prevCount + 1);
+  };
+  
+  // Problem with direct updates
+  const incrementByThree = () => {
+    setCount(count + 1); // Only adds 1!
+    setCount(count + 1);
+    setCount(count + 1);
+  };
+  
+  // Correct multiple updates
+  const incrementByThreeCorrect = () => {
+    setCount(prev => prev + 1);
+    setCount(prev => prev + 1);
+    setCount(prev => prev + 1);
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Count: {count}&lt;/h2&gt;
+      &lt;button onClick={incrementFunctional}&gt;+1&lt;/button&gt;
+      &lt;button onClick={incrementByThreeCorrect}&gt;+3&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Updating Objects and Arrays
+                                </div>
+                                
+                                <div class="code-title">ComplexUpdate.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+
+function ComplexUpdate() {
+  const [user, setUser] = useState({
+    name: 'Alice',
+    age: 25,
+    address: { city: 'Mumbai' }
+  });
+  
+  const [tasks, setTasks] = useState(['Task 1', 'Task 2']);
+  
+  // Update nested object
+  const updateCity = () => {
+    setUser(prev => ({
+      ...prev,
+      address: {
+        ...prev.address,
+        city: 'Delhi'
+      }
+    }));
+  };
+  
+  // Add to array
+  const addTask = () => {
+    setTasks(prev => [...prev, `Task ${prev.length + 1}`]);
+  };
+  
+  // Remove from array
+  const removeTask = (index) => {
+    setTasks(prev => prev.filter((_, i) => i !== index));
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;{user.name}, {user.address.city}&lt;/p&gt;
+      &lt;button onClick={updateCity}&gt;Move to Delhi&lt;/button&gt;
+      
+      &lt;ul&gt;
+        {tasks.map((task, i) => (
+          &lt;li key={i}&gt;
+            {task}
+            &lt;button onClick={() => removeTask(i)}&gt;Remove&lt;/button&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+      &lt;button onClick={addTask}&gt;Add Task&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+
+                            <div class="success-box">
+                                <strong>Rules for Updating State:</strong>
+                                <ul>
+                                    <li>Never mutate state directly</li>
+                                    <li>Always create new object/array</li>
+                                    <li>Use spread operator (...)</li>
+                                    <li>For arrays: use map, filter, concat</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 4: Lifting State Up -->
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">4</span>
+                            Lifting State Up
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> What is Lifting State Up?</h5>
+                                <p>When multiple components need to share state, move it to their closest common parent.</p>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Temperature Converter
+                                </div>
+                                
+                                <div class="code-title">TemperatureInput.jsx (Child)</div>
+<pre class="line-numbers"><code class="language-jsx">import React from 'react';
+
+function TemperatureInput({ scale, temperature, onChange }) {
+  const scaleNames = { c: 'Celsius', f: 'Fahrenheit' };
+  
+  return (
+    &lt;div&gt;
+      &lt;label&gt;{scaleNames[scale]}:&lt;/label&gt;
+      &lt;input 
+        type="number"
+        value={temperature}
+        onChange={(e) => onChange(e.target.value)}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default TemperatureInput;</code></pre>
+
+                                <div class="code-title">Calculator.jsx (Parent)</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+import TemperatureInput from './TemperatureInput';
+
+function toCelsius(f) { return ((f - 32) * 5) / 9; }
+function toFahrenheit(c) { return (c * 9) / 5 + 32; }
+
+function Calculator() {
+  const [temperature, setTemperature] = useState('');
+  const [scale, setScale] = useState('c');
+  
+  const handleCelsiusChange = (temp) => {
+    setScale('c');
+    setTemperature(temp);
+  };
+  
+  const handleFahrenheitChange = (temp) => {
+    setScale('f');
+    setTemperature(temp);
+  };
+  
+  const celsius = scale === 'f' ? toCelsius(temperature) : temperature;
+  const fahrenheit = scale === 'c' ? toFahrenheit(temperature) : temperature;
+  
+  return (
+    &lt;div&gt;
+      &lt;TemperatureInput 
+        scale="c" 
+        temperature={celsius}
+        onChange={handleCelsiusChange}
+      /&gt;
+      
+      &lt;TemperatureInput 
+        scale="f" 
+        temperature={fahrenheit}
+        onChange={handleFahrenheitChange}
+      /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+
+                            <div class="diagram-container">
+                                <h5>Lifting State Up - Data Flow</h5>
+                                <div class="mermaid">
+                                    graph TD
+                                    A[Parent: Calculator<br/>State: temperature, scale]
+                                    A -->|Props: value, onChange| B[Child: Celsius Input]
+                                    A -->|Props: value, onChange| C[Child: Fahrenheit Input]
+                                    B -.onChange.-> A
+                                    C -.onChange.-> A
+                                    style A fill:#c8e6c9
+                                    style B fill:#b3e5fc
+                                    style C fill:#b3e5fc
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 5: Event Handling -->
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">5</span>
+                            Event Handling
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> Event Handling in React</h5>
+                                <p>React events use camelCase and you pass functions as handlers.</p>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Common Events
+                                </div>
+                                
+                                <div class="code-title">Events.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+
+function Events() {
+  const [text, setText] = useState('');
+  const [submitted, setSubmitted] = useState('');
+  
+  // Click event
+  const handleClick = () => {
+    alert('Button clicked!');
+  };
+  
+  // Click with parameter
+  const greet = (name) => {
+    alert(`Hello, ${name}!`);
+  };
+  
+  // Change event
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
+  
+  // Submit event
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent page reload
+    setSubmitted(text);
+    setText('');
+  };
+  
+  return (
+    &lt;div&gt;
+      {/* Click Events */}
+      &lt;button onClick={handleClick}&gt;Click Me&lt;/button&gt;
+      &lt;button onClick={() => greet('Student')}&gt;Greet&lt;/button&gt;
+      
+      {/* Form Events */}
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;input 
+          type="text"
+          value={text}
+          onChange={handleChange}
+          placeholder="Type something"
+        /&gt;
+        &lt;button type="submit"&gt;Submit&lt;/button&gt;
+      &lt;/form&gt;
+      
+      {submitted && &lt;p&gt;Submitted: {submitted}&lt;/p&gt;}
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table comparison-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Event</th>
+                                            <th>When It Fires</th>
+                                            <th>Example</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>onClick</code></td>
+                                            <td>Element is clicked</td>
+                                            <td><code>&lt;button onClick={fn}&gt;</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>onChange</code></td>
+                                            <td>Input value changes</td>
+                                            <td><code>&lt;input onChange={fn}&gt;</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>onSubmit</code></td>
+                                            <td>Form is submitted</td>
+                                            <td><code>&lt;form onSubmit={fn}&gt;</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>onMouseEnter</code></td>
+                                            <td>Mouse enters element</td>
+                                            <td><code>&lt;div onMouseEnter={fn}&gt;</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>onKeyPress</code></td>
+                                            <td>Key is pressed</td>
+                                            <td><code>&lt;input onKeyPress={fn}&gt;</code></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 6: Stateless Components -->
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">6</span>
+                            Stateless Components
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> What are Stateless Components?</h5>
+                                <p>Components that don't manage their own state. They only receive props and render UI.</p>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Stateless Component
+                                </div>
+                                
+                                <div class="code-title">UserCard.jsx (Stateless)</div>
+<pre class="line-numbers"><code class="language-jsx">import React from 'react';
+
+// Stateless component - only receives props
+function UserCard({ name, email, role }) {
+  return (
+    &lt;div className="card"&gt;
+      &lt;h3&gt;{name}&lt;/h3&gt;
+      &lt;p&gt;{email}&lt;/p&gt;
+      &lt;span&gt;{role}&lt;/span&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default UserCard;</code></pre>
+
+                                <div class="code-title">UserList.jsx (Stateful Parent)</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+import UserCard from './UserCard';
+
+function UserList() {
+  const [users] = useState([
+    { id: 1, name: 'Rama', email: 'rama@edu', role: 'HOD' },
+    { id: 2, name: 'Priya', email: 'priya@edu', role: 'Prof' }
+  ]);
+  
+  return (
+    &lt;div&gt;
+      {users.map(user => (
+        &lt;UserCard 
+          key={user.id}
+          name={user.name}
+          email={user.email}
+          role={user.role}
+        /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+
+                            <div class="success-box">
+                                <strong>Benefits of Stateless Components:</strong>
+                                <ul>
+                                    <li>Easier to test</li>
+                                    <li>More reusable</li>
+                                    <li>Simpler to understand</li>
+                                    <li>Better performance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 7: State vs Props -->
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">7</span>
+                            State vs Props
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table comparison-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Aspect</th>
+                                            <th>State</th>
+                                            <th>Props</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Definition</strong></td>
+                                            <td>Internal data managed by component</td>
+                                            <td>External data passed from parent</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Mutable?</strong></td>
+                                            <td>✅ Yes (can be changed)</td>
+                                            <td>❌ No (read-only)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Who owns it?</strong></td>
+                                            <td>Component itself</td>
+                                            <td>Parent component</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Triggers re-render?</strong></td>
+                                            <td>✅ Yes</td>
+                                            <td>✅ Yes (when changed by parent)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Example</strong></td>
+                                            <td><code>const [count, setCount] = useState(0)</code></td>
+                                            <td><code>function Child({name})</code></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: State vs Props
+                                </div>
+                                
+                                <div class="code-title">Example.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+
+// Child component receives props
+function Child({ name, age }) {
+  // Cannot modify props!
+  // name = 'New Name'; // ❌ Error!
+  
+  return &lt;p&gt;{name} is {age} years old&lt;/p&gt;;
+}
+
+// Parent component manages state
+function Parent() {
+  const [name, setName] = useState('John');
+  const [age, setAge] = useState(25);
+  
+  return (
+    &lt;div&gt;
+      {/* Passing state as props */}
+      &lt;Child name={name} age={age} /&gt;
+      
+      {/* Can modify state */}
+      &lt;button onClick={() => setAge(age + 1)}&gt;
+        Increase Age
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 8: Component Hierarchy -->
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">8</span>
+                            Component Hierarchy
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> Component Tree Structure</h5>
+                                <p>React apps are organized in a tree structure with parent and child components.</p>
+                            </div>
+
+                            <div class="diagram-container">
+                                <h5>Component Hierarchy Example</h5>
+                                <div class="mermaid">
+                                    graph TD
+                                    A[App]
+                                    A --> B[Header]
+                                    A --> C[Main]
+                                    A --> D[Footer]
+                                    C --> E[Sidebar]
+                                    C --> F[Content]
+                                    F --> G[Article 1]
+                                    F --> H[Article 2]
+                                    style A fill:#c8e6c9
+                                    style C fill:#b3e5fc
+                                    style F fill:#ffe0b2
+                                </div>
+                            </div>
+
+                            <div class="success-box">
+                                <strong>Design Principles:</strong>
+                                <ul>
+                                    <li>Single Responsibility - each component does one thing</li>
+                                    <li>Reusability - design for multiple uses</li>
+                                    <li>Composition - build complex UIs from simple parts</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 9: Component Communication -->
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">9</span>
+                            Component Communication
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> How Components Communicate</h5>
+                                <p><strong>Data flows DOWN</strong> via props, <strong>Events flow UP</strong> via callbacks.</p>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Parent-Child Communication
+                                </div>
+                                
+                                <div class="code-title">Communication.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+
+// Child component
+function Child({ message, onSend }) {
+  const [input, setInput] = useState('');
+  
+  const handleSend = () => {
+    onSend(input); // Send data UP to parent
+    setInput('');
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;From parent: {message}&lt;/p&gt;
+      &lt;input 
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      /&gt;
+      &lt;button onClick={handleSend}&gt;Send to Parent&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Parent component
+function Parent() {
+  const [parentMsg, setParentMsg] = useState('Hello from Parent');
+  const [childMsg, setChildMsg] = useState('');
+  
+  const handleReceive = (msg) => {
+    setChildMsg(msg); // Receive data from child
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Parent Component&lt;/h3&gt;
+      &lt;p&gt;From child: {childMsg}&lt;/p&gt;
+      
+      {/* Pass data DOWN and callback UP */}
+      &lt;Child 
+        message={parentMsg}
+        onSend={handleReceive}
+      /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+
+                            <div class="diagram-container">
+                                <h5>Data Flow Direction</h5>
+                                <div class="mermaid">
+                                    graph LR
+                                    A[Parent] -->|Props: Data DOWN| B[Child]
+                                    B -.Callback: Events UP.-> A
+                                    style A fill:#c8e6c9
+                                    style B fill:#b3e5fc
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- EXPRESS TAB -->
+            <div class="tab-pane fade" id="express-tab">
+                <div class="content-section">
+                    <h2 class="mb-4">Express.js - Web Framework</h2>
+                    
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">1</span>
+                            Introduction to Express
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> What is Express?</h5>
+                                <p><strong>Express</strong> is a minimal and flexible Node.js web framework for building web applications and APIs.</p>
+                            </div>
+
+                            <div class="key-point">
+                                <strong>Why Express?</strong>
+                                <ul class="list-styled">
+                                    <li>Fast and minimalist</li>
+                                    <li>Powerful routing</li>
+                                    <li>Middleware support</li>
+                                    <li>Large ecosystem</li>
+                                </ul>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Basic Express Server
+                                </div>
+                                
+                                <div class="code-title">server.js</div>
+<pre class="line-numbers"><code class="language-javascript">const express = require('express');
+const app = express();
+
+// Middleware to parse JSON
+app.use(express.json());
+
+// Root route
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
+// JSON API route
+app.get('/api/info', (req, res) => {
+  res.json({
+    message: 'Express Server',
+    version: '1.0.0',
+    timestamp: new Date()
+  });
+});
+
+// Start server
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});</code></pre>
+
+                                <div class="output-preview">
+$ node server.js
+Server running on http://localhost:3000
+                                </div>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Middleware
+                                </div>
+                                
+                                <div class="code-title">middleware.js</div>
+<pre class="line-numbers"><code class="language-javascript">const express = require('express');
+const app = express();
+
+// Built-in middleware
+app.use(express.json());
+
+// Custom middleware - Logger
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next(); // Pass to next middleware
+});
+
+// Custom middleware - Auth
+const auth = (req, res, next) => {
+  const token = req.headers['authorization'];
+  
+  if (token === 'secret-token') {
+    next(); // Authenticated
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+};
+
+// Protected route
+app.get('/api/protected', auth, (req, res) => {
+  res.json({ message: 'Protected data' });
+});
+
+// Public route
+app.get('/api/public', (req, res) => {
+  res.json({ message: 'Public data' });
+});
+
+app.listen(3000);</code></pre>
+                            </div>
+
+                            <div class="diagram-container">
+                                <h5>Request-Response Cycle</h5>
+                                <div class="mermaid">
+                                    graph LR
+                                    A[Client] --> B[Express App]
+                                    B --> C[Middleware 1]
+                                    C --> D[Middleware 2]
+                                    D --> E[Route Handler]
+                                    E --> F[Response]
+                                    F --> A
+                                    style A fill:#ffe0b2
+                                    style C fill:#b3e5fc
+                                    style D fill:#b3e5fc
+                                    style E fill:#c8e6c9
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">2</span>
+                            Express Router
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> Modular Routes</h5>
+                                <p>Use Router to organize routes into separate files.</p>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Router
+                                </div>
+                                
+                                <div class="code-title">routes/users.js</div>
+<pre class="line-numbers"><code class="language-javascript">const express = require('express');
+const router = express.Router();
+
+let users = [
+  { id: 1, name: 'John' },
+  { id: 2, name: 'Jane' }
+];
+
+// GET all users
+router.get('/', (req, res) => {
+  res.json(users);
+});
+
+// GET user by ID
+router.get('/:id', (req, res) => {
+  const user = users.find(u => u.id === parseInt(req.params.id));
+  if (!user) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+  res.json(user);
+});
+
+// POST create user
+router.post('/', (req, res) => {
+  const newUser = {
+    id: users.length + 1,
+    name: req.body.name
+  };
+  users.push(newUser);
+  res.status(201).json(newUser);
+});
+
+// DELETE user
+router.delete('/:id', (req, res) => {
+  users = users.filter(u => u.id !== parseInt(req.params.id));
+  res.json({ message: 'User deleted' });
+});
+
+module.exports = router;</code></pre>
+
+                                <div class="code-title">app.js</div>
+<pre class="line-numbers"><code class="language-javascript">const express = require('express');
+const usersRouter = require('./routes/users');
+
+const app = express();
+app.use(express.json());
+
+// Use router
+app.use('/api/users', usersRouter);
+
+app.listen(3000);</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- REST API TAB -->
+            <div class="tab-pane fade" id="rest-tab">
+                <div class="content-section">
+                    <h2 class="mb-4">REST API - Architectural Style</h2>
+                    
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">1</span>
+                            REST API Fundamentals
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> What is REST?</h5>
+                                <p><strong>REST</strong> (Representational State Transfer) is an architectural style using HTTP methods for CRUD operations.</p>
+                            </div>
+
+                            <div class="key-point">
+                                <strong>REST Principles:</strong>
+                                <ul class="list-styled">
+                                    <li>Client-Server separation</li>
+                                    <li>Stateless communication</li>
+                                    <li>Cacheable responses</li>
+                                    <li>Uniform interface</li>
+                                    <li>Resource-based URLs</li>
+                                </ul>
+                            </div>
+
+                            <div class="table-responsive">
+                                <h4>HTTP Methods (CRUD)</h4>
+                                <table class="table comparison-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Method</th>
+                                            <th>CRUD</th>
+                                            <th>Purpose</th>
+                                            <th>Example URL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="method-badge method-get">GET</span></td>
+                                            <td>Read</td>
+                                            <td>Retrieve resource(s)</td>
+                                            <td><code>GET /api/users</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="method-badge method-post">POST</span></td>
+                                            <td>Create</td>
+                                            <td>Create new resource</td>
+                                            <td><code>POST /api/users</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="method-badge method-put">PUT</span></td>
+                                            <td>Update</td>
+                                            <td>Replace entire resource</td>
+                                            <td><code>PUT /api/users/1</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="method-badge method-patch">PATCH</span></td>
+                                            <td>Update</td>
+                                            <td>Partial update</td>
+                                            <td><code>PATCH /api/users/1</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="method-badge method-delete">DELETE</span></td>
+                                            <td>Delete</td>
+                                            <td>Remove resource</td>
+                                            <td><code>DELETE /api/users/1</code></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Complete REST API
+                                </div>
+                                
+                                <div class="code-title">api/students.js</div>
+<pre class="line-numbers"><code class="language-javascript">const express = require('express');
+const router = express.Router();
+
+let students = [
+  { id: 1, name: 'Aarav', course: 'BCA', cgpa: 8.5 },
+  { id: 2, name: 'Diya', course: 'BCA', cgpa: 9.1 }
+];
+
+// GET all students
+router.get('/', (req, res) => {
+  res.json({
+    success: true,
+    count: students.length,
+    data: students
+  });
+});
+
+// GET student by ID
+router.get('/:id', (req, res) => {
+  const student = students.find(s => s.id === parseInt(req.params.id));
+  
+  if (!student) {
+    return res.status(404).json({
+      success: false,
+      error: 'Student not found'
+    });
+  }
+  
+  res.json({
+    success: true,
+    data: student
+  });
+});
+
+// POST create student
+router.post('/', (req, res) => {
+  const { name, course, cgpa } = req.body;
+  
+  if (!name || !course) {
+    return res.status(400).json({
+      success: false,
+      error: 'Name and course required'
+    });
+  }
+  
+  const newStudent = {
+    id: students.length + 1,
+    name,
+    course,
+    cgpa: cgpa || 0
+  };
+  
+  students.push(newStudent);
+  
+  res.status(201).json({
+    success: true,
+    data: newStudent
+  });
+});
+
+// PUT update student
+router.put('/:id', (req, res) => {
+  const student = students.find(s => s.id === parseInt(req.params.id));
+  
+  if (!student) {
+    return res.status(404).json({
+      success: false,
+      error: 'Student not found'
+    });
+  }
+  
+  student.name = req.body.name || student.name;
+  student.course = req.body.course || student.course;
+  student.cgpa = req.body.cgpa || student.cgpa;
+  
+  res.json({
+    success: true,
+    data: student
+  });
+});
+
+// DELETE student
+router.delete('/:id', (req, res) => {
+  const index = students.findIndex(s => s.id === parseInt(req.params.id));
+  
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      error: 'Student not found'
+    });
+  }
+  
+  students.splice(index, 1);
+  
+  res.json({
+    success: true,
+    message: 'Student deleted'
+  });
+});
+
+module.exports = router;</code></pre>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Testing REST API
+                                </div>
+                                
+                                <div class="code-title">API Requests</div>
+<pre class="line-numbers"><code class="language-javascript">// 1. GET all students
+fetch('http://localhost:3000/api/students')
+  .then(res => res.json())
+  .then(data => console.log(data));
+
+// 2. GET student by ID
+fetch('http://localhost:3000/api/students/1')
+  .then(res => res.json())
+  .then(data => console.log(data));
+
+// 3. POST create student
+fetch('http://localhost:3000/api/students', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    name: 'Rahul',
+    course: 'BCA',
+    cgpa: 7.8
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));
+
+// 4. PUT update student
+fetch('http://localhost:3000/api/students/1', {
+  method: 'PUT',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ cgpa: 8.7 })
+})
+.then(res => res.json())
+.then(data => console.log(data));
+
+// 5. DELETE student
+fetch('http://localhost:3000/api/students/1', {
+  method: 'DELETE'
+})
+.then(res => res.json())
+.then(data => console.log(data));</code></pre>
+                            </div>
+
+                            <div class="success-box">
+                                <strong>REST API Best Practices:</strong>
+                                <ul>
+                                    <li>Use proper HTTP methods</li>
+                                    <li>Return correct status codes</li>
+                                    <li>Use plural nouns for resources</li>
+                                    <li>Version your API (/api/v1/)</li>
+                                    <li>Provide clear error messages</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- GRAPHQL TAB -->
+            <div class="tab-pane fade" id="graphql-tab">
+                <div class="content-section">
+                    <h2 class="mb-4">GraphQL - Query Language for APIs</h2>
+                    
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">1</span>
+                            Introduction to GraphQL
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> What is GraphQL?</h5>
+                                <p><strong>GraphQL</strong> is a query language for APIs that lets clients request exactly the data they need.</p>
+                            </div>
+
+                            <div class="key-point">
+                                <strong>GraphQL Features:</strong>
+                                <ul class="list-styled">
+                                    <li><strong>Field Specification:</strong> Ask for exactly what you need</li>
+                                    <li><strong>Graph Based:</strong> Follow relationships easily</li>
+                                    <li><strong>Single Endpoint:</strong> One URL for all operations</li>
+                                    <li><strong>Strongly Typed:</strong> Schema defines all types</li>
+                                    <li><strong>Introspection:</strong> Query the schema itself</li>
+                                </ul>
+                            </div>
+
+                            <div class="table-responsive">
+                                <h4>GraphQL vs REST</h4>
+                                <table class="table comparison-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Feature</th>
+                                            <th>REST</th>
+                                            <th>GraphQL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Endpoints</strong></td>
+                                            <td>Multiple (/users, /posts)</td>
+                                            <td>Single (/graphql)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Data Fetching</strong></td>
+                                            <td>Fixed structure</td>
+                                            <td>Client specifies fields</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Over-fetching</strong></td>
+                                            <td>❌ Common</td>
+                                            <td>✅ No over-fetching</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Under-fetching</strong></td>
+                                            <td>❌ Multiple requests</td>
+                                            <td>✅ Single request</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Type System</strong></td>
+                                            <td>Not built-in</td>
+                                            <td>✅ Strongly typed</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">2</span>
+                            GraphQL Schema
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> About API GraphQL Schema</h5>
+                                <p>The schema defines the structure of your data and operations available.</p>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: GraphQL Schema
+                                </div>
+                                
+                                <div class="code-title">schema.graphql</div>
+<pre class="line-numbers"><code class="language-graphql"># Type definitions
+type Student {
+  id: ID!           # ! means required
+  name: String!
+  email: String!
+  course: Course!
+  cgpa: Float
+}
+
+type Course {
+  id: ID!
+  name: String!
+  code: String!
+  students: [Student!]!  # Array of students
+}
+
+# Custom Scalar Types
+scalar Date
+
+# Query type - for reading data
+type Query {
+  students: [Student!]!
+  student(id: ID!): Student
+  courses: [Course!]!
+}
+
+# Mutation type - for modifying data
+type Mutation {
+  createStudent(input: CreateStudentInput!): Student!
+  updateStudent(id: ID!, input: UpdateStudentInput!): Student!
+  deleteStudent(id: ID!): Boolean!
+}
+
+# Input types
+input CreateStudentInput {
+  name: String!
+  email: String!
+  courseId: ID!
+  cgpa: Float
+}
+
+input UpdateStudentInput {
+  name: String
+  email: String
+  cgpa: Float
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">3</span>
+                            GraphQL Queries & Mutations
+                        </div>
+                        <div class="card-body">
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: The List API
+                                </div>
+                                
+                                <div class="code-title">Queries</div>
+<pre class="line-numbers"><code class="language-graphql"># 1. Simple query
+query {
+  students {
+    id
+    name
+    email
+  }
+}
+
+# Response:
+# {
+#   "data": {
+#     "students": [
+#       { "id": "1", "name": "Aarav", "email": "aarav@edu" }
+#     ]
+#   }
+# }
+
+# 2. Query with nested data
+query {
+  students {
+    name
+    course {
+      name
+      code
+    }
+  }
+}
+
+# 3. Query with arguments
+query {
+  student(id: "1") {
+    name
+    email
+    cgpa
+  }
+}
+
+# 4. Query with variables
+query GetStudent($id: ID!) {
+  student(id: $id) {
+    name
+    email
+  }
+}
+
+# Variables:
+# { "id": "1" }</code></pre>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: The Create API
+                                </div>
+                                
+                                <div class="code-title">Mutations</div>
+<pre class="line-numbers"><code class="language-graphql"># 1. Create student
+mutation {
+  createStudent(input: {
+    name: "Rahul"
+    email: "rahul@edu"
+    courseId: "1"
+    cgpa: 7.8
+  }) {
+    id
+    name
+    email
+  }
+}
+
+# 2. Update student with variables
+mutation UpdateCGPA($id: ID!, $input: UpdateStudentInput!) {
+  updateStudent(id: $id, input: $input) {
+    id
+    name
+    cgpa
+  }
+}
+
+# Variables:
+# {
+#   "id": "1",
+#   "input": { "cgpa": 8.5 }
+# }
+
+# 3. Delete student
+mutation {
+  deleteStudent(id: "2")
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">4</span>
+                            GraphQL Server Implementation
+                        </div>
+                        <div class="card-body">
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: GraphQL Server
+                                </div>
+                                
+                                <div class="code-title">server.js</div>
+<pre class="line-numbers"><code class="language-javascript">const { ApolloServer, gql } = require('apollo-server');
+
+// Sample data
+let students = [
+  { id: '1', name: 'Aarav', email: 'aarav@edu', courseId: '1', cgpa: 8.5 },
+  { id: '2', name: 'Diya', email: 'diya@edu', courseId: '1', cgpa: 9.1 }
+];
+
+let courses = [
+  { id: '1', name: 'BCA', code: 'BCA-2024' }
+];
+
+// Type definitions
+const typeDefs = gql`
+  type Student {
+    id: ID!
+    name: String!
+    email: String!
+    course: Course!
+    cgpa: Float
+  }
+  
+  type Course {
+    id: ID!
+    name: String!
+    code: String!
+    students: [Student!]!
+  }
+  
+  type Query {
+    students: [Student!]!
+    student(id: ID!): Student
+    courses: [Course!]!
+  }
+  
+  type Mutation {
+    createStudent(input: CreateStudentInput!): Student!
+    updateStudent(id: ID!, input: UpdateStudentInput!): Student!
+    deleteStudent(id: ID!): Boolean!
+  }
+  
+  input CreateStudentInput {
+    name: String!
+    email: String!
+    courseId: ID!
+    cgpa: Float
+  }
+  
+  input UpdateStudentInput {
+    name: String
+    email: String
+    cgpa: Float
+  }
+`;
+
+// Resolvers
+const resolvers = {
+  Query: {
+    students: () => students,
+    student: (parent, args) => students.find(s => s.id === args.id),
+    courses: () => courses
+  },
+  
+  Mutation: {
+    createStudent: (parent, args) => {
+      const newStudent = {
+        id: String(students.length + 1),
+        ...args.input
+      };
+      students.push(newStudent);
+      return newStudent;
+    },
+    
+    updateStudent: (parent, args) => {
+      const student = students.find(s => s.id === args.id);
+      if (!student) throw new Error('Student not found');
+      
+      Object.assign(student, args.input);
+      return student;
+    },
+    
+    deleteStudent: (parent, args) => {
+      const index = students.findIndex(s => s.id === args.id);
+      if (index === -1) return false;
+      
+      students.splice(index, 1);
+      return true;
+    }
+  },
+  
+  Student: {
+    course: (parent) => courses.find(c => c.id === parent.courseId)
+  },
+  
+  Course: {
+    students: (parent) => students.filter(s => s.courseId === parent.id)
+  }
+};
+
+// Create server
+const server = new ApolloServer({ typeDefs, resolvers });
+
+server.listen(4000).then(({ url }) => {
+  console.log(`🚀 GraphQL Server ready at ${url}`);
+});</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">5</span>
+                            Input Validations & Error Handling
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> Input Validations</h5>
+                                <p>Always validate input data before processing to ensure data integrity.</p>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Validation & Error Handling
+                                </div>
+                                
+                                <div class="code-title">validation.js</div>
+<pre class="line-numbers"><code class="language-javascript">const resolvers = {
+  Mutation: {
+    createStudent: (parent, args) => {
+      const { name, email, courseId, cgpa } = args.input;
+      
+      // Input validations
+      if (!name || name.trim().length === 0) {
+        throw new Error('Name is required');
+      }
+      
+      if (!email || !email.includes('@')) {
+        throw new Error('Valid email is required');
+      }
+      
+      if (cgpa && (cgpa < 0 || cgpa > 10)) {
+        throw new Error('CGPA must be between 0 and 10');
+      }
+      
+      // Check if course exists
+      const course = courses.find(c => c.id === courseId);
+      if (!course) {
+        throw new Error('Course not found');
+      }
+      
+      // Create student
+      const newStudent = {
+        id: String(students.length + 1),
+        name: name.trim(),
+        email: email.toLowerCase(),
+        courseId,
+        cgpa: cgpa || 0
+      };
+      
+      students.push(newStudent);
+      return newStudent;
+    }
+  }
+};</code></pre>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Displaying Errors in React
+                                </div>
+                                
+                                <div class="code-title">ErrorDisplay.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React from 'react';
+import { useMutation, gql } from '@apollo/client';
+
+const CREATE_STUDENT = gql`
+  mutation CreateStudent($input: CreateStudentInput!) {
+    createStudent(input: $input) {
+      id
+      name
+      email
+    }
+  }
+`;
+
+function CreateStudentForm() {
+  const [createStudent, { data, loading, error }] = useMutation(CREATE_STUDENT);
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    
+    createStudent({
+      variables: {
+        input: {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          courseId: formData.get('courseId'),
+          cgpa: parseFloat(formData.get('cgpa'))
+        }
+      }
+    });
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;input name="name" placeholder="Name" required /&gt;
+        &lt;input name="email" placeholder="Email" required /&gt;
+        &lt;input name="courseId" placeholder="Course ID" required /&gt;
+        &lt;input name="cgpa" type="number" placeholder="CGPA" /&gt;
+        &lt;button type="submit" disabled={loading}&gt;
+          {loading ? 'Creating...' : 'Create Student'}
+        &lt;/button&gt;
+      &lt;/form&gt;
+      
+      {/* Display errors */}
+      {error && (
+        &lt;div className="alert alert-danger"&gt;
+          Error: {error.message}
+        &lt;/div&gt;
+      )}
+      
+      {/* Display success */}
+      {data && (
+        &lt;div className="alert alert-success"&gt;
+          Student created: {data.createStudent.name}
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">6</span>
+                            GraphQL Client Integration (Apollo Client)
+                        </div>
+                        <div class="card-body">
+                            <div class="concept-box">
+                                <h5><i class="ti ti-bulb"></i> List API Integration</h5>
+                                <p>Using Apollo Client to integrate GraphQL with React applications.</p>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Apollo Client Setup
+                                </div>
+                                
+                                <div class="code-title">apolloClient.js</div>
+<pre class="line-numbers"><code class="language-javascript">import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache()
+});
+
+export default client;</code></pre>
+
+                                <div class="code-title">App.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React from 'react';
+import { ApolloProvider } from '@apollo/client';
+import client from './apolloClient';
+import StudentList from './StudentList';
+
+function App() {
+  return (
+    &lt;ApolloProvider client={client}&gt;
+      &lt;StudentList /&gt;
+    &lt;/ApolloProvider&gt;
+  );
+}</code></pre>
+
+                                <div class="code-title">StudentList.jsx (List API Integration)</div>
+<pre class="line-numbers"><code class="language-jsx">import React from 'react';
+import { useQuery, gql } from '@apollo/client';
+
+const GET_STUDENTS = gql`
+  query GetStudents {
+    students {
+      id
+      name
+      email
+      cgpa
+      course {
+        name
+        code
+      }
+    }
+  }
+`;
+
+function StudentList() {
+  const { loading, error, data } = useQuery(GET_STUDENTS);
+  
+  if (loading) return &lt;p&gt;Loading...&lt;/p&gt;;
+  if (error) return &lt;p&gt;Error: {error.message}&lt;/p&gt;;
+  
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Students&lt;/h2&gt;
+      {data.students.map(student => (
+        &lt;div key={student.id} className="card"&gt;
+          &lt;h3&gt;{student.name}&lt;/h3&gt;
+          &lt;p&gt;{student.email}&lt;/p&gt;
+          &lt;p&gt;CGPA: {student.cgpa}&lt;/p&gt;
+          &lt;p&gt;Course: {student.course.name} ({student.course.code})&lt;/p&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+
+                            <div class="example-container">
+                                <div class="example-header">
+                                    <i class="ti ti-code"></i>
+                                    Example: Create API Integration with Query Variables
+                                </div>
+                                
+                                <div class="code-title">CreateStudent.jsx</div>
+<pre class="line-numbers"><code class="language-jsx">import React, { useState } from 'react';
+import { useMutation, gql } from '@apollo/client';
+
+const CREATE_STUDENT = gql`
+  mutation CreateStudent($input: CreateStudentInput!) {
+    createStudent(input: $input) {
+      id
+      name
+      email
+      cgpa
+    }
+  }
+`;
+
+function CreateStudent() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    courseId: '1',
+    cgpa: 0
+  });
+  
+  const [createStudent, { loading, error, data }] = useMutation(CREATE_STUDENT, {
+    refetchQueries: ['GetStudents'] // Refresh list after creation
+  });
+  
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    createStudent({
+      variables: {
+        input: {
+          name: formData.name,
+          email: formData.email,
+          courseId: formData.courseId,
+          cgpa: parseFloat(formData.cgpa)
+        }
+      }
+    });
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Create New Student&lt;/h3&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;input
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Name"
+          required
+        /&gt;
+        &lt;input
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Email"
+          required
+        /&gt;
+        &lt;input
+          name="cgpa"
+          type="number"
+          step="0.1"
+          value={formData.cgpa}
+          onChange={handleChange}
+          placeholder="CGPA"
+        /&gt;
+        &lt;button type="submit" disabled={loading}&gt;
+          {loading ? 'Creating...' : 'Create Student'}
+        &lt;/button&gt;
+      &lt;/form&gt;
+      
+      {error && &lt;p style={{color: 'red'}}&gt;Error: {error.message}&lt;/p&gt;}
+      {data && &lt;p style={{color: 'green'}}&gt;Created: {data.createStudent.name}&lt;/p&gt;}
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-card">
+                        <div class="card-header">
+                            <span class="topic-number">7</span>
+                            GraphQL Libraries
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <h4>Popular GraphQL Libraries</h4>
+                                <table class="table comparison-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Library</th>
+                                            <th>Purpose</th>
+                                            <th>Use Case</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Apollo Server</strong></td>
+                                            <td>GraphQL server</td>
+                                            <td>Building GraphQL APIs</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Apollo Client</strong></td>
+                                            <td>GraphQL client</td>
+                                            <td>React/Vue/Angular apps</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Express GraphQL</strong></td>
+                                            <td>GraphQL middleware</td>
+                                            <td>Adding GraphQL to Express</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>GraphQL.js</strong></td>
+                                            <td>Reference implementation</td>
+                                            <td>Core GraphQL functionality</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Relay</strong></td>
+                                            <td>GraphQL client (Facebook)</td>
+                                            <td>Large-scale React apps</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="success-box">
+                                <strong>GraphQL Best Practices:</strong>
+                                <ul>
+                                    <li>Design schema carefully - it's your API contract</li>
+                                    <li>Use meaningful names for types and fields</li>
+                                    <li>Implement proper error handling</li>
+                                    <li>Add input validations in resolvers</li>
+                                    <li>Use DataLoader to prevent N+1 queries</li>
+                                    <li>Implement pagination for large datasets</li>
+                                    <li>Add authentication and authorization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Prism.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    
+    <!-- Mermaid -->
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+</html>
